@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 export default function Home() {
@@ -26,7 +27,7 @@ export default function Home() {
       const data = await response.json();
 
       if (data.success) {
-        setGeneratedImage(data.imageUrl); // Set the generated image URL
+        setGeneratedImage(data.imageUrl);
       } else {
         setErrorMessage(data.error || "Something went wrong.");
       }
@@ -72,10 +73,12 @@ export default function Home() {
         {generatedImage && (
           <div className="mt-4">
             <h2 className="text-xl font-semibold mb-2">Generated Image:</h2>
-            <img
+            <Image
               src={generatedImage}
               alt="Generated"
               className="max-w-full rounded-lg border shadow-lg"
+              width={400}
+              height={300}
             />
           </div>
         )}
@@ -83,7 +86,7 @@ export default function Home() {
 
       <footer className="w-full max-w-3xl mx-auto text-center mt-6">
         <p className="text-sm text-gray-500">
-          Powered by StabilityAI &amp; FastAPI Backend
+          Copyright &copy; 2024. Developed By Dawit Zewdu.
         </p>
       </footer>
     </div>
