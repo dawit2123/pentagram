@@ -23,15 +23,19 @@ export async function POST(request: Request) {
       throw new Error("Failed to generate the image from the backend.");
     }
 
-    const imageBlob = await response.blob();
-    const imageUrl = URL.createObjectURL(imageBlob);
+    // Get the binary image data
+    const buffer = await response.arrayBuffer();
+    const base64Image = Buffer.from(buffer).toString("base64");
+
+    // Create a data URL for the image
+    const dataUrl = `data:image/jpeg;base64,${base64Image}`;
 
     return NextResponse.json({
       success: true,
-      imageUrl,
+      imageUrl: dataUrl,
     });
   } catch (error) {
-    console.error("Error:", error.message);
+    console.error("Error:", error);
     return NextResponse.json(
       { success: false, error: "Failed to process request" },
       { status: 500 }
