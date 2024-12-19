@@ -5,10 +5,14 @@ import { useState } from "react";
 export default function Home() {
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [generatedImage, setGeneratedImage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setGeneratedImage(null);
+    setErrorMessage(null);
 
     try {
       const response = await fetch("/api/generate-image", {
@@ -20,9 +24,16 @@ export default function Home() {
       });
 
       const data = await response.json();
-      console.log(data);
+
+      if (data.success) {
+        setGeneratedImage(data.imageUrl); // Set the generated image URL
+      } else {
+        setErrorMessage(data.error || "Something went wrong.");
+      }
+
       setInputText("");
     } catch (error) {
+      setErrorMessage("Failed to generate the image.");
       console.error("Error:", error);
     } finally {
       setIsLoading(false);
@@ -30,14 +41,12 @@ export default function Home() {
   };
 
   return (
-    // TODO: Update the UI here to show the images generated
-    
     <div className="min-h-screen flex flex-col justify-between p-8">
-      <main className="flex-1">{/* Main content can go here */}</main>
+      <main className="flex-1 flex flex-col items-center">
+        <h1 className="text-2xl font-bold mb-6">Generate AI Images</h1>
 
-      <footer className="w-full max-w-3xl mx-auto">
-        <form onSubmit={handleSubmit} className="w-full">
-          <div className="flex gap-2">
+        <form onSubmit={handleSubmit} className="w-full max-w-md">
+          <div className="flex gap-2 mb-4">
             <input
               type="text"
               value={inputText}
@@ -55,6 +64,27 @@ export default function Home() {
             </button>
           </div>
         </form>
+
+        {/* Error message */}
+        {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
+
+        {/* Generated image */}
+        {generatedImage && (
+          <div className="mt-4">
+            <h2 className="text-xl font-semibold mb-2">Generated Image:</h2>
+            <img
+              src={generatedImage}
+              alt="Generated"
+              className="max-w-full rounded-lg border shadow-lg"
+            />
+          </div>
+        )}
+      </main>
+
+      <footer className="w-full max-w-3xl mx-auto text-center mt-6">
+        <p className="text-sm text-gray-500">
+          Powered by StabilityAI &amp; FastAPI Backend
+        </p>
       </footer>
     </div>
   );
