@@ -42,51 +42,58 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between p-8">
-      <main className="flex-1 flex flex-col items-center">
-        <h1 className="text-2xl font-bold mb-6">Generate AI Images</h1>
+    <div className="min-h-screen flex flex-col justify-between bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 text-white">
+      <main className="flex-1 flex flex-col items-center px-4 py-10">
+        <h1 className="text-4xl font-extrabold mb-6 text-center animate-pulse">
+          Welcome to Pentagram
+        </h1>
+        {generatedImage && (
+          <div className="mt-5 text-center">
+            <h2 className="text-2xl font-bold mb-4">Your Generated Image</h2>
+            <div className="relative rounded-lg overflow-hidden shadow-2xl border border-white/20">
+              <Image
+                src={generatedImage}
+                alt="Generated"
+                className="rounded-lg"
+                width={400}
+                height={300}
+              />
+            </div>
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit} className="w-full max-w-md">
-          <div className="flex gap-2 mb-4">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-lg bg-white/10 backdrop-blur-md rounded-lg p-6 shadow-lg"
+        >
+          <div className="flex gap-4 mb-4">
             <input
               type="text"
               value={inputText}
               onChange={e => setInputText(e.target.value)}
-              className="flex-1 p-3 rounded-lg bg-black/[.05] dark:bg-white/[.06] border border-black/[.08] dark:border-white/[.145] focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
-              placeholder="Describe the image you want to generate..."
+              className="flex-1 p-3 rounded-lg bg-white/20 text-white placeholder-white/70 border-none focus:ring-2 focus:ring-pink-400 focus:outline-none"
+              placeholder="Enter a prompt (e.g., 'a futuristic city')"
               disabled={isLoading}
             />
             <button
               type="submit"
               disabled={isLoading}
-              className="px-6 py-3 rounded-lg bg-foreground text-background hover:bg-[#383838] dark:hover:bg-[#ccc] transition-colors disabled:opacity-50"
+              className="px-6 py-3 rounded-lg bg-pink-600 text-white font-semibold hover:bg-pink-700 transition-colors disabled:opacity-50"
             >
               {isLoading ? "Generating..." : "Generate"}
             </button>
           </div>
+
+          {errorMessage && (
+            <p className="text-red-400 text-center">{errorMessage}</p>
+          )}
         </form>
-
-        {/* Error message */}
-        {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
-
-        {/* Generated image */}
-        {generatedImage && (
-          <div className="mt-4">
-            <h2 className="text-xl font-semibold mb-2">Generated Image:</h2>
-            <Image
-              src={generatedImage}
-              alt="Generated"
-              className="max-w-full rounded-lg border shadow-lg"
-              width={400}
-              height={300}
-            />
-          </div>
-        )}
       </main>
 
-      <footer className="w-full max-w-3xl mx-auto text-center mt-6">
-        <p className="text-sm text-gray-500">
-          Copyright &copy; 2024. Developed By Dawit Zewdu.
+      <footer className="py-4 text-center bg-black/30 backdrop-blur-md">
+        <p className="text-sm text-white/80">
+          Copyright &copy; 2024. Developed by{" "}
+          <span className="font-semibold">Dawit Zewdu</span>.
         </p>
       </footer>
     </div>
