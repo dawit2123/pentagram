@@ -2,10 +2,10 @@
 
 export async function generateImage(text: string) {
   try {
-    const response = await fetch("http://localhost:3001/api/generate-image", {
+    const response = await fetch("http://localhost:3000/api/generate-image", {
       method: "POST",
       headers: {
-        "Context-Type": "application/json",
+        "Content-Type": "application/json",
         "X-API-SECRET": process.env.API_KEY || "",
       },
       body: JSON.stringify({ text }),

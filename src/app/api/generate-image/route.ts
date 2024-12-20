@@ -6,13 +6,18 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { text } = body;
-
-    const url = new URL(
-      "https://dawitzewdu2123--sd-pentagram-model-generate.modal.run/"
-    );
+    const apiSecret = request.headers.get("X-API-SECRET");
+    if (apiSecret !== process.env.API_KEY) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized",
+        },
+        { status: 401 }
+      );
+    }
+    const modelUrl = process.env.MODEL_URL;
+    const url = new URL(modelUrl || "");
     url.searchParams.set("prompt", text);
-    console.log("requesting url", url.toString());
-    console.log("api key", process.env.API_KEY);
     const response = await fetch(url.toString(), {
       method: "GET",
       headers: {
