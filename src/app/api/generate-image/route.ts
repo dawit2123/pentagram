@@ -1,41 +1,46 @@
 import { NextResponse } from "next/server";
+import { put } from "@vercel/blob";
+import crypto from "crypto";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { text } = body;
 
-    if (!text || text.trim() === "") {
-      return NextResponse.json(
-        { success: false, error: "Prompt text cannot be empty" },
-        { status: 400 }
+    const url = new URL(
+      "https://dawitzewdu2123--sd-pentagram-model-generate.modal.run/"
+    );
+    url.searchParams.set("prompt", text);
+    console.log("requesting url", url.toString());
+    console.log("api key", process.env.API_KEY);
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        "X-API-Key": process.env.API_KEY || "",
+        Accept: "image/jpeg",
+      },
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Error:", errorText);
+      throw new Error(
+        `HTTP error status: ${response.status}, message: ${errorText}`
       );
     }
 
-    // Call your backend API
-    const backendUrl = `https://dawitzewdu2123--pentagram-model-model-generate-dev.modal.run/?prompt=${encodeURIComponent(
-      text
-    )}`;
+    const imageBuffer = await response.arrayBuffer();
+    const filename = `${crypto.randomUUID()}.jpg`;
 
-    const response = await fetch(backendUrl);
-
-    if (!response.ok) {
-      throw new Error("Failed to generate the image from the backend.");
-    }
-
-    // Get the binary image data
-    const buffer = await response.arrayBuffer();
-    const base64Image = Buffer.from(buffer).toString("base64");
-
-    // Create a data URL for the image
-    const dataUrl = `data:image/jpeg;base64,${base64Image}`;
-
+    const blob = await put(filename, imageBuffer, {
+      access: "public",
+      contentType: "image/jpeg",
+    });
     return NextResponse.json({
       success: true,
-      imageUrl: dataUrl,
+      imageUrl: blob.url,
     });
   } catch (error) {
-    console.error("Error:", error);
+    console.log("error", error);
     return NextResponse.json(
       { success: false, error: "Failed to process request" },
       { status: 500 }
