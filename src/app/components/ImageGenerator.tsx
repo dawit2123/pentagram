@@ -42,9 +42,8 @@ export default function ImageGenerator({ generateImage }: ImageGeneratorProps) {
     }
   };
   return (
-    <div className="min-h-screen flex flex-col justify-between p-8">
+    <div className="min-h-screen flex flex-col justify-between p-8 bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 text-white">
       <main className="flex-1 flex flex-col items-center gap-8">
-        {" "}
         {imageUrl && (
           <div className="full max-w-2xl rounded-lg overflow-hidden shadow-lg">
             <img
@@ -64,7 +63,7 @@ export default function ImageGenerator({ generateImage }: ImageGeneratorProps) {
               type="text"
               value={inputText}
               onChange={e => setInputText(e.target.value)}
-              className="flex-1 p-3 rounded-lg bg-black/[.05] dark:bg-white/[.06] border border-black/[.08] dark:border-white/[.145] focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
+              className="flex-1 p-3 rounded-lg bg-black/[.05] dark:bg-white/[.06] text-black dark:text-white placeholder-black/50 dark:placeholder-white/50 border border-black/[.08] dark:border-white/[.15] focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white"
               placeholder="Describe the image you want to generate..."
               disabled={isLoading}
             />
