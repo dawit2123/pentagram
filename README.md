@@ -1,45 +1,18 @@
-# Pentagram: Instagram, but with AI Images
+# Pentagram AI Image Generation Platform  
 
-## Getting Started
+## Overview  
+Pentagram is an AI image generation platform designed to provide users with a seamless experience for generating images using advanced machine learning models. Built with a robust tech stack that includes **React**, **TypeScript**, **Python**, **FastAPI**, and secure authentication features, this platform aims to deliver high-quality outputs efficiently.  
 
-First, clone the GitHub repository:
+## Features  
+- **Secure Frontend and Backend Connection**: Implements secure communication protocols to protect user data and interactions.  
+- **User Authentication**: Offers secure user authentication for accessing personalized features and configurations.  
+- **Active Model Performance**: The application keeps the AI model active to ensure responsiveness and avoid sleep mode, resulting in faster image generation times.  
 
-```bash
-git clone https://github.com/team-headstart/pentagram.git
-```
+## Tech Stack  
+- **Frontend**: React, TypeScript  
+- **Backend**: Python, FastAPI  
+- **Modal**: For enhanced user interactions  
+- **Authentication**: Secures both the frontend and backend processes  
 
-Then, navigate to the project directory:
-
-```bash
-cd pentagram
-```
-
-Then, install the dependencies:
-
-```bash
-npm install
-```
-
-Run the development server:
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Tasks
-
-- Take a look at the TODOs in the repo, namely:
-
-    - `src/app/page.tsx`: This is where the user can input their prompt and generate an image. Make sure to update the UI and handle the API response to display the images generated
-
-    - `src/app/api/generate-image/route.ts`: This is where the image generation API is implemented. Make sure to call your image generation API from Modal here
-
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Demo  
+![Alt text for the image](https://github.com/dawit2123/pentagram/blob/main/demo.png)  
